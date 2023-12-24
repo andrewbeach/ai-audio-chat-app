@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "server": "^1.0.38"
+  }
+}

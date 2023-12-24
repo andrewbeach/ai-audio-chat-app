@@ -84,6 +84,8 @@ const sendMessage = async (context: AppContext, {
       key: fileKey,
     });
 
+    console.log({ signedUrl });
+
     const newMessage: Message = { 
       id: result.id,
       createdBy: result.created_by,
