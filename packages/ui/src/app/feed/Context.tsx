@@ -1,25 +1,9 @@
 'use client';
 
 import axios from 'axios';
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-
-type Message = {
-  id: string;
-  text: string | undefined;
-}
-
-type FeedState = 
-  | 'initial'
-  | 'loaded' 
-  | 'fetching';
+import { createContext, useContext } from 'react';
 
 type FeedContextType = {
-  addMessages: (messages: Message[]) => void;
-  fetchMessages: () => void;
-  messages: Message[];
-  sendMessage: (input: { file: File }) => void;
-  setMessages: Dispatch<SetStateAction<Message[]>>;
-  state: FeedState;
   uploadFile: (file: File, signedUrl: string) => Promise<boolean>;
 };
 
@@ -29,24 +13,18 @@ type ProviderProps = {
   children: React.ReactNode;
 };
 
+// This context exposes effects and coeffects to components in the feed
+// in a way that allows client components to use them without having to
+// worry about the hierarchy of client and server components.
+//
+// Currently the only effect is the uploadFile effect, since Apollo Server
+// hooks are used for other data needs. However, those could be moved here
+// here, or a store with pure dispatchers could be used here instead.
 export const FeedProvider = ({ children }: ProviderProps) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [state, _setState] = useState<FeedState>('initial');
-
-  const fetchMessages = () => {
-    // fetch first page of messages
-    // setMessages with result
-    // setState to 'loaded'
-  };
-
   const uploadFile = async (file: File, signedUrl: string) => {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
     const cancelToken = source.token;
-
-    // Temp: replacing minio with localhost here so this works from browser which is 
-    // unaware of docker names
-    // const hackSignedUrl = signedUrl.replace('minio', 'localhost')
 
     const response = await axios
       .put(signedUrl, file, {
@@ -56,9 +34,18 @@ export const FeedProvider = ({ children }: ProviderProps) => {
         },
         onUploadProgress: event => {
           const progress = event.total ? event.loaded / event.total : 0;
+          // biased progress for a better ui representation of the action,
+          // starting at 10 and giving 80 percent of the progress to this
+          // put request. 
           const biasedProgress = 10 + 80 * progress;
+          // Not used currently, but this data could be saved in a 
+          // useState hook here and accessed in children components
+          // to display the file upload progress.
+          // setFileProgress(biasedProgress);
+          // 
+          // If progress isn't desired, a fetch request could be used 
+          // instead.
           console.log({ biasedProgress });
-          // store.dispatch({ type: 'files/updateFileUploadProgress', progress: biasedProgress, uuid });
         },
         cancelToken,
       })
@@ -69,22 +56,11 @@ export const FeedProvider = ({ children }: ProviderProps) => {
         // uploadFailed(error);
       });
 
-    console.log({ axiosResponse: response });
     return true;
-  };
-
-  const sendMessage = async () => {
-
   };
 
   return (
     <FeedContext.Provider value={{
-      addMessages: (newMessages: Message[]) => setMessages(ms => [...newMessages, ...ms]),
-      fetchMessages,
-      messages,
-      sendMessage,
-      setMessages,
-      state, 
       uploadFile,
     }}>
       {children}
@@ -92,6 +68,9 @@ export const FeedProvider = ({ children }: ProviderProps) => {
   );
 };
 
+// Any client component can use this as long as it is below the tree
+// of the provider node. An error will be thrown if the hook is used in 
+// a component that is not below the provider in the tree.
 export const useFeedContext = () => {
   const context = useContext(FeedContext)
   if (context === undefined) {
