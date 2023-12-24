@@ -1,0 +1,59 @@
+type Message {
+  id: String!
+  createdBy: String!
+  hasLanguagePending: Boolean!
+  hasTranscriptionPending: Boolean!
+  text: String
+  language: String
+  fileUrl: String
+}
+
+type User {
+  id: String!
+  email: String!
+}
+
+interface MutationResponse {
+  success: Boolean!
+}
+
+type CreateMessageResponse implements MutationResponse {
+  success: Boolean!
+  message: Message
+}
+
+type CreateUserResponse implements MutationResponse {
+  success: Boolean!
+  user: User
+}
+
+type SignedUrl {
+  bucket: String!
+  key: String!
+  url: String!
+}
+
+type GenerateSignedUrlResponse implements MutationResponse {
+  success: Boolean!
+  signedUrl: SignedUrl
+}
+
+type Query {
+  getSignedUrl: String
+  messages: [Message]
+}
+
+type Mutation {
+  createUser(email: String!): CreateUserResponse
+  generateSignedUrl: GenerateSignedUrlResponse
+  sendMessage(
+    fileKey: String!, 
+    enableTranscription: Boolean,
+    enableLanguageDetection: Boolean
+  ): CreateMessageResponse
+}
+
+type Subscription {
+  messageCreated: Message
+  messageUpdated: Message
+}

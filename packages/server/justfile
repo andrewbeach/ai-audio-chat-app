@@ -1,0 +1,11 @@
+gen: 
+  yarn gen
+
+tsc *flags: 
+  yarn tsc {{flags}}
+
+add package *flags:
+  yarn add {{package}} {{flags}}
+
+test *flags: 
+  yarn test {{flags}}

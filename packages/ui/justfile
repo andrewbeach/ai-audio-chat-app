@@ -1,0 +1,5 @@
+tsc *flags:
+  yarn tsc {{flags}}
+
+add package *flags:
+  yarn add {{package}} {{flags}}

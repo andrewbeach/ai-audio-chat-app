@@ -1,0 +1,142 @@
+.wrapper {
+  padding: 12px 24px 12px 10px;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.right {
+  width: 100%;
+  height: 100%;
+  flex-grow: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-between;
+
+  p {
+    font-size: 12px;
+    width: 100%;
+    position: relative;
+    top: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    span {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.left {
+  width: 36px;
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.barWrapper {
+  margin-top: 7px;
+  width: 100%;
+  position: relative;
+}
+
+.rangeWrapper {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  pointer-events: none;
+  border-radius: 4px;
+  overflow: hidden;
+  &::before {
+    content: '';
+    height: 4px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 4px;
+  }
+}
+
+.rangeWrapperAfter {
+  content: '';
+  height: 4px;
+  position: absolute;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.range {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: none;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &::-webkit-slider-thumb {
+    border-radius: 0;
+    background: transparent;
+    visibility: hidden;
+  }
+  &::-moz-range-thumb {
+    border-radius: 0;
+    background: transparent;
+    visibility: hidden;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  &::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  &::-ms-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+    color: transparent;
+  }
+}
