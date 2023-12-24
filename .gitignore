@@ -1,5 +1,4 @@
 node_modules
 .yarn
 .env
-minio-data/*
-!minio-data/
+minio-data/.minio.sys/*
