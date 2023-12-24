@@ -12,6 +12,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      rabbitmq: 
+        condition: service_healthy
   ui: 
     build:
       context: ./packages/ui
@@ -28,6 +30,9 @@ services:
     stop_signal: SIGINT
     ports:
       - 5001:5001
+    depends_on:
+      rabbitmq: 
+        condition: service_healthy
 
   minio:
     image: quay.io/minio/minio
@@ -70,6 +75,11 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
   
 networks:
   default:
