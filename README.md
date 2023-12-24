@@ -1,3 +1,5 @@
+# Audio Transcription Chat App
+
 This is a chat application allowing users to send audio messages. Once the message is sent, the audio is transcribed using openai-whisper and updated live in the chat feed. 
 
 ## Running the app locally
