@@ -10,4 +10,4 @@ Each package is dockerized, with a compose.yml file at the top level that define
 Once everything loads, the web ui will be available at localhost:3000/feed. All other service ports are defined in the compose.yml if you'd like to manually interact with the other services.
 
 ## Demo
-![2023-12-24 10 23 07](https://github.com/andrewbeach/ai-audio-chat-app/assets/3936715/e29f2e2a-3748-440b-be49-22605eb1b469)
+![demo](https://github.com/andrewbeach/ai-audio-chat-app/assets/3936715/09c5feb7-7815-4c45-9b2e-71cb3630bdfc)
